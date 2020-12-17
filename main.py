@@ -10,11 +10,12 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 
 #driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
 
-def get_book_by_name(name_searched):
+def get_book_by_name_pdfdrive(name_searched):
     name_searched = name_searched.split(" ")
     print(name_searched)
     book_names=[] #List to store name of the book
     links=[] #List to store the link of the book
+    dl_links=[]
     formatted_search = name_searched[0]
     if len(name_searched) != 1:
         for i in range(1, len(name_searched)):
@@ -64,6 +65,37 @@ def get_book_by_name(name_searched):
     
     print(links)
     
+    for book in links:
+        page = requests.get(book)
+        html = page.text
+        sub_title = '<meta property="og:title" content='
+        position_title = html.find(sub_title) + len(sub_title)
+        title = html[position_title]
+        x = 1
+        while html[position_title+x] != '"':
+            title += html[position_title+x]
+            x += 1
+        title = title.replace('"', '')
+        book_names.append(title)
+        
+        sub_dl = '<span id="download-button"><a id="download-button-link" class="btn btn-primary btn-responsive" href='
+        position_dl = html.find(sub_dl) + len(sub_dl)
+        dl = html[position_dl]
+        x = 1
+        while html[position_dl+x] != '"':
+            dl += html[position_dl+x]
+            x += 1
+        dl = dl.replace('"', '')
+        dl = "https://www.pdfdrive.com" + dl
+        dl_links.append(dl)
+    
+    print(book_names)
+    print(dl_links)
+        
+        
+        
+        
+        
 
 
 
@@ -72,7 +104,7 @@ def get_book_by_name(name_searched):
     
 
     
-get_book_by_name("six easy piece by richard feynman")
+get_book_by_name_pdfdrive("six easy piece by richard feynman")
 
 """
 class ="file-right"
