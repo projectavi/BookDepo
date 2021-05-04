@@ -1,115 +1,59 @@
-from selenium import webdriver
-from bs4 import BeautifulSoup
-import pandas as pd
-from lxml import html
-from webdriver_manager.chrome import ChromeDriverManager
 import requests
+from bs4 import BeautifulSoup
+import re
+from selenium import webdriver
+import time
+from webdriver_manager.chrome import ChromeDriverManager
 
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--incognito')
+#options.add_argument('--headless')
+driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
-#driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+name = "the way of kings"
 
-def get_book_by_name_pdfdrive(name_searched):
-    name_searched = name_searched.split(" ")
-    print(name_searched)
-    book_names=[] #List to store name of the book
-    links=[] #List to store the link of the book
-    dl_links=[]
-    formatted_search = name_searched[0]
-    if len(name_searched) != 1:
-        for i in range(1, len(name_searched)):
-            formatted_search+= "+" + name_searched[i]
-    pdfdrive_search = "https://www.pdfdrive.com/search?q=" + formatted_search + "&pagecount=&pubyear=&searchin=&em="
-    page = requests.get(pdfdrive_search)
-    
-    html = page.text
-    
-    print(len(html))
-    
-    sub = '<div class="files-new">'
+res = requests.get("https://1lib.in/s/The%20Way%20of%20Kings")
 
-    position = html.find(sub) - 1
-    
-    html = html[position:len(html)]
-    
-    print(len(html))
-    
-    sub = "<a href="
-    
-    for i in range(0,10):
-    
-        position = html.find(sub) + len(sub)
-        
-        print(position)
-        
-        link_add = html[position]
-        
-        x = 1
-        
-        while html[position+x] != '"':
-            link_add += html[position+x]
-            x += 1
-        
-        link_add = link_add.replace('"', '')
-        
-        final_link = "https://www.pdfdrive.com" + link_add
-    
-        print(final_link) 
-        
-        links.append(final_link)
-        
-        html = html[position+x:len(html)]
-    
-    links = list(set(list(links)))
-    
-    print(links)
-    
-    for book in links:
-        page = requests.get(book)
-        html = page.text
-        sub_title = '<meta property="og:title" content='
-        position_title = html.find(sub_title) + len(sub_title)
-        title = html[position_title]
-        x = 1
-        while html[position_title+x] != '"':
-            title += html[position_title+x]
-            x += 1
-        title = title.replace('"', '')
-        book_names.append(title)
-        
-        sub_dl = '<span id="download-button"><a id="download-button-link" class="btn btn-primary btn-responsive" href='
-        position_dl = html.find(sub_dl) + len(sub_dl)
-        dl = html[position_dl]
-        x = 1
-        while html[position_dl+x] != '"':
-            dl += html[position_dl+x]
-            x += 1
-        dl = dl.replace('"', '')
-        dl = "https://www.pdfdrive.com" + dl
-        dl_links.append(dl)
-    
-    print(book_names)
-    print(dl_links)
-        
-        
-        
-        
-        
+print(type(res.text))
+print(res.status_code)
 
+soup = BeautifulSoup(res.content, 'html.parser')
 
+snippets = soup.select("h3")
 
+#print(snippets)
 
+links = []
+anchors = []
 
-    
+for snip in snippets:
+    print(snip)
+    anchors.append(snip.find("a"))
 
-    
-get_book_by_name_pdfdrive("six easy piece by richard feynman")
+for anchor in anchors:
+    links.append(anchor.get("href"))
 
-"""
-class ="file-right"
+print(type(links[0]))
 
-get the url
+links = [links[0]]
 
-<h2> has the title
-"""
+for link in links:
+    driver.get("https://1lib.in/" + link)
+    more_buttons = driver.find_element_by_id("btnCheckOtherFormats")
+    if more_buttons.is_displayed():
+        driver.execute_script("arguments[0].click();", more_buttons)
+        time.sleep(1)
+    page_source = driver.page_source
+    # res_link = requests.get("https://1lib.in/" + link)
+    soup_link = BeautifulSoup(page_source, 'html.parser')
+    downloads = soup_link.find_all(class_="addDownloadedBook")
+    print((len(downloads)))
+    download_links = []
+    for tag in downloads:
+        download_links.append("https://1lib.in" + tag.get("href"))
+    print(download_links)
+
+url = download_links[0]
+driver.get(url)
