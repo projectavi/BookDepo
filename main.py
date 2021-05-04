@@ -5,13 +5,6 @@ from selenium import webdriver
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-options = webdriver.ChromeOptions()
-options.add_argument('--ignore-certificate-errors')
-options.add_argument('--incognito')
-#options.add_argument('--headless')
-driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
-
 name = "the way of kings"
 
 res = requests.get("https://1lib.in/s/The%20Way%20of%20Kings")
@@ -27,19 +20,37 @@ snippets = soup.select("h3")
 
 links = []
 anchors = []
+names = []
 
 for snip in snippets:
-    print(snip)
+    #print(snip)
     anchors.append(snip.find("a"))
 
+
 for anchor in anchors:
-    links.append(anchor.get("href"))
+    #print(type(anchor))
+    links.append("https://1lib.in" + anchor.get("href"))
+    names.append(anchor.contents[0])
+
+authors = soup.find_all(class_="color1")
+
+for i in range(0, len(authors)):
+    authors[i] = authors[i].contents[0]
+
+#print(authors)
 
 print(type(links[0]))
 
-links = [links[0]]
+#links = [links[0]] only for testing the below
 
-for link in links:
+#Maybe can circumvent by using Selenium to click download links
+"""for link in links:
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--incognito')
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+
     driver.get("https://1lib.in/" + link)
     more_buttons = driver.find_element_by_id("btnCheckOtherFormats")
     if more_buttons.is_displayed():
@@ -54,6 +65,7 @@ for link in links:
     for tag in downloads:
         download_links.append("https://1lib.in" + tag.get("href"))
     print(download_links)
+"""
 
-url = download_links[0]
-driver.get(url)
+for i in range(0, len(links)):
+    print(names[i] + "(" + authors[i] + ")" + ": " + links[i])
