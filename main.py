@@ -6,6 +6,7 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 
 def onelib(name):
+    print(2)
     name = name.split()
 
     url = "https://1lib.in/s/" + name[0]
@@ -39,6 +40,8 @@ def onelib(name):
         #print(type(anchor))
         links.append("https://1lib.in" + anchor.get("href"))
         names.append(anchor.contents[0])
+
+    print(3)
 
     authors = soup.find_all(class_="color1")
 
@@ -78,6 +81,8 @@ def onelib(name):
 
 def allbooksworld(name):
 
+    print("4")
+
     name = name.split()
 
     url = "https://allbooksworld.com/?s=" + name[0]
@@ -106,6 +111,8 @@ def allbooksworld(name):
     links = []
     tempNames = []
 
+    print(5)
+
     for snip in snippets:
         #print(snip)
         anchors.append(snip.find("a"))
@@ -125,6 +132,7 @@ def allbooksworld(name):
     #searchLinks = [searchLinks[4]]
 
     for k in range(0, len(searchLinks)):
+        print(k)
         link = searchLinks[k]
         res = requests.get(link)
         soup = BeautifulSoup(res.content, 'html.parser')
@@ -135,11 +143,11 @@ def allbooksworld(name):
 
             tempName = tempNames[k]
 
-            if oneupload[i].find("ePub") != -1 and tempName.find("ePub") == -1:
+            if oneupload[i].find("epub") != -1 and tempName.find("ePub") == -1:
                 # print("pdf to epub")
                 # print(tempName)
                 tempName = tempName.replace("PDF", "ePub")
-            if oneupload[i].find("PDF") != -1 and tempName.find("PDF") == -1:
+            if oneupload[i].find("pdf") != -1 and tempName.find("PDF") == -1:
                 # print("epub to pdf")
                 # print(tempName)
                 tempName = tempName.replace("ePub", "PDF")
@@ -171,19 +179,29 @@ def allbooksworld(name):
 
     return names, links
 
-book = input("Enter the name of the book you are looking for: ")
-result_num = int(input("Enter the number of results to be displayed: "))
 
-onelibNames, onelibAuthors, onelibLinks = onelib(book)
+def search_for_book(book, result_num):
 
-ABWnames, ABWlinks = allbooksworld(book)
+    print("1")
 
-for i in range(0, result_num-len(ABWlinks)):
-    print("")
-    print(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + "): ")
-    print(onelibLinks[i])
+    onelibNames, onelibAuthors, onelibLinks = onelib(book)
 
-for i in range(0, len(ABWlinks)):
-    print("")
-    print(ABWnames[i])
-    print(ABWlinks[i])
+    ABWnames, ABWlinks = allbooksworld(book)
+
+    results = []
+
+    for i in range(0, result_num-len(ABWlinks)):
+        print("")
+        print(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + "): ")
+        print(onelibLinks[i])
+
+        results.append(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + "): \n" +  onelibLinks[i])
+
+    for i in range(0, len(ABWlinks)):
+        print("")
+        print(ABWnames[i])
+        print(ABWlinks[i])
+
+        results.append(ABWnames[i] + "\n" + ABWlinks[i])
+
+    return results;
