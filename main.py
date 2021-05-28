@@ -205,3 +205,10 @@ def search_for_book(book, result_num):
         results.append(ABWnames[i] + "\n" + ABWlinks[i])
 
     return results;
+
+# book = input("Book: ");
+# num = int(input("Num: "))
+# print(search_for_book(book, num))
+
+if __name__ == "__main__":
+    search_for_book(input("Enter Book Name: "), int(input("Enter number of results to display: ")))
