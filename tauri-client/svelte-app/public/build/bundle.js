@@ -359,31 +359,146 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[7] = list[i];
+    	child_ctx[8] = list[i];
     	return child_ctx;
     }
 
-    // (40:2) {#each results as result}
-    function create_each_block(ctx) {
-    	let p;
-    	let t_value = /*result*/ ctx[7] + "";
-    	let t;
+    // (44:1) {:else}
+    function create_else_block(ctx) {
+    	let div;
+    	let each_value = /*results*/ ctx[2];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
 
     	const block = {
     		c: function create() {
-    			p = element("p");
-    			t = text(t_value);
-    			add_location(p, file, 40, 3, 998);
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(div, "class", "result-view");
+    			add_location(div, file, 44, 2, 1092);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, p, anchor);
-    			append_dev(p, t);
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*results*/ 4 && t_value !== (t_value = /*result*/ ctx[7] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*results*/ 4) {
+    				each_value = /*results*/ ctx[2];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(p);
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(44:1) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (42:1) {#if FLAG_done === "searching"}
+    function create_if_block(ctx) {
+    	let h3;
+
+    	const block = {
+    		c: function create() {
+    			h3 = element("h3");
+    			h3.textContent = "Searching...";
+    			add_location(h3, file, 42, 2, 1057);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, h3, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(h3);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(42:1) {#if FLAG_done === \\\"searching\\\"}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (46:3) {#each results as result}
+    function create_each_block(ctx) {
+    	let a;
+    	let h4;
+    	let t0_value = /*result*/ ctx[8].title + "";
+    	let t0;
+    	let t1;
+    	let a_href_value;
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			h4 = element("h4");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			add_location(h4, file, 46, 43, 1190);
+    			attr_dev(a, "href", a_href_value = /*result*/ ctx[8].link);
+    			attr_dev(a, "target", "_blank");
+    			add_location(a, file, 46, 4, 1151);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+    			append_dev(a, h4);
+    			append_dev(h4, t0);
+    			append_dev(a, t1);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*results*/ 4 && t0_value !== (t0_value = /*result*/ ctx[8].title + "")) set_data_dev(t0, t0_value);
+
+    			if (dirty & /*results*/ 4 && a_href_value !== (a_href_value = /*result*/ ctx[8].link)) {
+    				attr_dev(a, "href", a_href_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
     		}
     	};
 
@@ -391,7 +506,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(40:2) {#each results as result}",
+    		source: "(46:3) {#each results as result}",
     		ctx
     	});
 
@@ -404,7 +519,7 @@ var app = (function () {
     	let t1;
     	let h3;
     	let t3;
-    	let div0;
+    	let div;
     	let h4;
     	let t5;
     	let input0;
@@ -429,16 +544,16 @@ var app = (function () {
     	let t16;
     	let button;
     	let t18;
-    	let div1;
     	let mounted;
     	let dispose;
-    	let each_value = /*results*/ ctx[2];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	function select_block_type(ctx, dirty) {
+    		if (/*FLAG_done*/ ctx[3] === "searching") return create_if_block;
+    		return create_else_block;
     	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
 
     	const block = {
     		c: function create() {
@@ -449,7 +564,7 @@ var app = (function () {
     			h3 = element("h3");
     			h3.textContent = "An aggregated search engine for free ebooks online";
     			t3 = space();
-    			div0 = element("div");
+    			div = element("div");
     			h4 = element("h4");
     			h4.textContent = "Enter the name of the book you are searching for:";
     			t5 = space();
@@ -477,39 +592,32 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Search!";
     			t18 = space();
-    			div1 = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
+    			if_block.c();
     			attr_dev(h1, "class", "svelte-1tky8bj");
-    			add_location(h1, file, 20, 1, 451);
-    			add_location(h3, file, 21, 1, 471);
-    			add_location(h4, file, 24, 2, 555);
-    			add_location(input0, file, 25, 2, 616);
-    			add_location(br0, file, 26, 2, 650);
-    			add_location(br1, file, 27, 2, 658);
-    			add_location(h7, file, 28, 2, 666);
-    			add_location(br2, file, 29, 2, 734);
-    			add_location(br3, file, 29, 8, 740);
+    			add_location(h1, file, 23, 1, 533);
+    			add_location(h3, file, 24, 1, 553);
+    			add_location(h4, file, 27, 2, 637);
+    			add_location(input0, file, 28, 2, 698);
+    			add_location(br0, file, 29, 2, 732);
+    			add_location(br1, file, 30, 2, 740);
+    			add_location(h7, file, 31, 2, 748);
+    			add_location(br2, file, 32, 2, 816);
+    			add_location(br3, file, 32, 8, 822);
     			attr_dev(input1, "type", "number");
     			attr_dev(input1, "min", "2");
     			attr_dev(input1, "max", "10");
-    			add_location(input1, file, 30, 2, 748);
-    			add_location(br4, file, 31, 2, 808);
+    			add_location(input1, file, 33, 2, 830);
+    			add_location(br4, file, 34, 2, 890);
     			attr_dev(input2, "type", "range");
     			attr_dev(input2, "min", "2");
     			attr_dev(input2, "max", "10");
-    			add_location(input2, file, 32, 2, 816);
-    			attr_dev(div0, "id", "inputs");
-    			add_location(div0, file, 23, 1, 535);
-    			add_location(br5, file, 35, 1, 883);
-    			add_location(button, file, 36, 1, 890);
-    			attr_dev(div1, "class", "result-view");
-    			add_location(div1, file, 38, 1, 941);
+    			add_location(input2, file, 35, 2, 898);
+    			attr_dev(div, "id", "inputs");
+    			add_location(div, file, 26, 1, 617);
+    			add_location(br5, file, 38, 1, 965);
+    			add_location(button, file, 39, 1, 972);
     			attr_dev(main, "class", "svelte-1tky8bj");
-    			add_location(main, file, 19, 0, 443);
+    			add_location(main, file, 22, 0, 525);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -520,47 +628,43 @@ var app = (function () {
     			append_dev(main, t1);
     			append_dev(main, h3);
     			append_dev(main, t3);
-    			append_dev(main, div0);
-    			append_dev(div0, h4);
-    			append_dev(div0, t5);
-    			append_dev(div0, input0);
+    			append_dev(main, div);
+    			append_dev(div, h4);
+    			append_dev(div, t5);
+    			append_dev(div, input0);
     			set_input_value(input0, /*book_name*/ ctx[0]);
-    			append_dev(div0, t6);
-    			append_dev(div0, br0);
-    			append_dev(div0, t7);
-    			append_dev(div0, br1);
-    			append_dev(div0, t8);
-    			append_dev(div0, h7);
-    			append_dev(div0, t10);
-    			append_dev(div0, br2);
-    			append_dev(div0, t11);
-    			append_dev(div0, br3);
-    			append_dev(div0, t12);
-    			append_dev(div0, input1);
+    			append_dev(div, t6);
+    			append_dev(div, br0);
+    			append_dev(div, t7);
+    			append_dev(div, br1);
+    			append_dev(div, t8);
+    			append_dev(div, h7);
+    			append_dev(div, t10);
+    			append_dev(div, br2);
+    			append_dev(div, t11);
+    			append_dev(div, br3);
+    			append_dev(div, t12);
+    			append_dev(div, input1);
     			set_input_value(input1, /*num_results*/ ctx[1]);
-    			append_dev(div0, t13);
-    			append_dev(div0, br4);
-    			append_dev(div0, t14);
-    			append_dev(div0, input2);
+    			append_dev(div, t13);
+    			append_dev(div, br4);
+    			append_dev(div, t14);
+    			append_dev(div, input2);
     			set_input_value(input2, /*num_results*/ ctx[1]);
     			append_dev(main, t15);
     			append_dev(main, br5);
     			append_dev(main, t16);
     			append_dev(main, button);
     			append_dev(main, t18);
-    			append_dev(main, div1);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div1, null);
-    			}
+    			if_block.m(main, null);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[4]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[5]),
-    					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[6]),
-    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[6]),
-    					listen_dev(button, "click", /*handleSearch*/ ctx[3], false, false, false)
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[5]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[6]),
+    					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[7]),
+    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[7]),
+    					listen_dev(button, "click", /*handleSearch*/ ctx[4], false, false, false)
     				];
 
     				mounted = true;
@@ -579,35 +683,23 @@ var app = (function () {
     				set_input_value(input2, /*num_results*/ ctx[1]);
     			}
 
-    			if (dirty & /*results*/ 4) {
-    				each_value = /*results*/ ctx[2];
-    				validate_each_argument(each_value);
-    				let i;
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
 
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div1, null);
-    					}
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(main, null);
     				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value.length;
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			destroy_each(each_blocks, detaching);
+    			if_block.d();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -630,14 +722,18 @@ var app = (function () {
     	let book_name = "";
     	let num_results = "";
     	let results = [];
+    	let FLAG_done = "none";
 
     	async function handleSearch(e) {
     		// let data = {search: book_name, num: num_results}
+    		$$invalidate(3, FLAG_done = "searching");
+
     		try {
     			const returnValue = await fetch(`/search?term=${JSON.stringify({ search: book_name, num: num_results })}`);
     			const response = await returnValue.json();
     			$$invalidate(2, results = response.data);
-    			alert(results);
+    			$$invalidate(3, FLAG_done = "found");
+    			console.log(results);
     		} catch(error) {
     			console.error("error", error);
     		}
@@ -668,6 +764,7 @@ var app = (function () {
     		book_name,
     		num_results,
     		results,
+    		FLAG_done,
     		handleSearch
     	});
 
@@ -675,6 +772,7 @@ var app = (function () {
     		if ("book_name" in $$props) $$invalidate(0, book_name = $$props.book_name);
     		if ("num_results" in $$props) $$invalidate(1, num_results = $$props.num_results);
     		if ("results" in $$props) $$invalidate(2, results = $$props.results);
+    		if ("FLAG_done" in $$props) $$invalidate(3, FLAG_done = $$props.FLAG_done);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -685,6 +783,7 @@ var app = (function () {
     		book_name,
     		num_results,
     		results,
+    		FLAG_done,
     		handleSearch,
     		input0_input_handler,
     		input1_input_handler,

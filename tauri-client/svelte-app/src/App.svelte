@@ -2,14 +2,17 @@
 	let book_name = "";
 	let num_results = "";
 	let results = [];
+	let FLAG_done = "none";
 
 	async function handleSearch(e) {
 		// let data = {search: book_name, num: num_results}
+		FLAG_done = "searching";
 		try {
 			const returnValue = await fetch(`/search?term=${JSON.stringify({search: book_name, num: num_results})}`);
 			const response = await returnValue.json();
 			results = response.data;
-			alert(results)
+			FLAG_done = "found";
+			console.log(results)
 		} catch (error) {
 			console.error("error", error);
 		}
@@ -36,11 +39,15 @@
 	<br/>
 	<button on:click={handleSearch}>Search!</button>
 
-	<div class="result-view">
-		{#each results as result}
-			<p> {result}</p>
-		{/each}
-	  </div>
+	{#if FLAG_done === "searching"}
+		<h3> Searching... </h3>
+	{:else}
+		<div class="result-view">
+			{#each results as result}
+				<a href={result.link} target="_blank"> <h4> {result.title} </h4> </a>
+			{/each}
+		</div>
+	{/if}
 </main>
 
 <style>
