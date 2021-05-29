@@ -365,7 +365,7 @@ var app = (function () {
 
     // (44:1) {:else}
     function create_else_block(ctx) {
-    	let div;
+    	let article;
     	let each_value = /*results*/ ctx[2];
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -376,20 +376,20 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			article = element("article");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(div, "class", "result-view");
-    			add_location(div, file, 44, 2, 1092);
+    			attr_dev(article, "class", "grid svelte-tfoz0i");
+    			add_location(article, file, 44, 2, 1092);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
+    			insert_dev(target, article, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
+    				each_blocks[i].m(article, null);
     			}
     		},
     		p: function update(ctx, dirty) {
@@ -406,7 +406,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
+    						each_blocks[i].m(article, null);
     					}
     				}
 
@@ -418,7 +418,7 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(article);
     			destroy_each(each_blocks, detaching);
     		}
     	};
@@ -466,29 +466,34 @@ var app = (function () {
 
     // (46:3) {#each results as result}
     function create_each_block(ctx) {
+    	let div;
     	let a;
     	let h4;
     	let t0_value = /*result*/ ctx[8].title + "";
     	let t0;
-    	let t1;
     	let a_href_value;
+    	let t1;
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			a = element("a");
     			h4 = element("h4");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(h4, file, 46, 43, 1190);
+    			add_location(h4, file, 46, 64, 1208);
     			attr_dev(a, "href", a_href_value = /*result*/ ctx[8].link);
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file, 46, 4, 1151);
+    			add_location(a, file, 46, 25, 1169);
+    			attr_dev(div, "class", "result svelte-tfoz0i");
+    			add_location(div, file, 46, 4, 1148);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, a, anchor);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, a);
     			append_dev(a, h4);
     			append_dev(h4, t0);
-    			append_dev(a, t1);
+    			append_dev(div, t1);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*results*/ 4 && t0_value !== (t0_value = /*result*/ ctx[8].title + "")) set_data_dev(t0, t0_value);
@@ -498,7 +503,7 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(a);
+    			if (detaching) detach_dev(div);
     		}
     	};
 
@@ -593,7 +598,7 @@ var app = (function () {
     			button.textContent = "Search!";
     			t18 = space();
     			if_block.c();
-    			attr_dev(h1, "class", "svelte-1tky8bj");
+    			attr_dev(h1, "class", "svelte-tfoz0i");
     			add_location(h1, file, 23, 1, 533);
     			add_location(h3, file, 24, 1, 553);
     			add_location(h4, file, 27, 2, 637);
@@ -616,7 +621,7 @@ var app = (function () {
     			add_location(div, file, 26, 1, 617);
     			add_location(br5, file, 38, 1, 965);
     			add_location(button, file, 39, 1, 972);
-    			attr_dev(main, "class", "svelte-1tky8bj");
+    			attr_dev(main, "class", "svelte-tfoz0i");
     			add_location(main, file, 22, 0, 525);
     		},
     		l: function claim(nodes) {

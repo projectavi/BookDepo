@@ -1,3 +1,3 @@
-main.svelte-1tky8bj{text-align:center;padding:1em;max-width:240px;margin:0 auto}h1.svelte-1tky8bj{color:#ff3e00;text-transform:uppercase;font-size:4em;font-weight:100}@media(min-width: 640px){main.svelte-1tky8bj{max-width:none}}
+.grid.svelte-tfoz0i{display:grid;place-items:center}.result.svelte-tfoz0i{width:600px;padding:10px;border:5px solid gray;margin:0;transition-duration:0.2s}.result.svelte-tfoz0i:hover{background-color:aquamarine}main.svelte-tfoz0i{text-align:center;padding:1em;max-width:240px;margin:0 auto}h1.svelte-tfoz0i{color:#ff3e00;text-transform:uppercase;font-size:4em;font-weight:100}@media(min-width: 640px){main.svelte-tfoz0i{max-width:none}}
 
 /*# sourceMappingURL=bundle.css.map */

@@ -42,15 +42,32 @@
 	{#if FLAG_done === "searching"}
 		<h3> Searching... </h3>
 	{:else}
-		<div class="result-view">
+		<article class="grid">
 			{#each results as result}
-				<a href={result.link} target="_blank"> <h4> {result.title} </h4> </a>
+				<div class="result"> <a href={result.link} target="_blank"> <h4> {result.title} </h4> </a> </div>
 			{/each}
-		</div>
+		</article>
 	{/if}
 </main>
 
 <style>
+	.grid {
+		display: grid;
+		place-items: center;
+	}
+
+	.result {
+		width: 600px;
+		padding: 10px;
+		border: 5px solid gray;
+		margin: 0;
+		transition-duration: 0.2s;
+	}
+
+	.result:hover {
+		background-color: aquamarine;
+	}
+
 	main {
 		text-align: center;
 		padding: 1em;
