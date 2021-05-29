@@ -7,7 +7,11 @@ const path = require('path');
 app.use(cors());
 
 app.get("/search", (req, res) => {
-    console.log(`Searching for books: ${req.query.data}`);
+    let data = JSON.parse(req.query.term);
+    //let num_results = req.query.num;
+    console.log(data)
+    //console.log(num_results)
+    console.log("Searching for " + data.num + " links to download " + data.search);
     // Run the python script here and send the results, or webscrape in node
     res.send({
         success: true,

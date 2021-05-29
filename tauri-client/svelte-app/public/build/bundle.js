@@ -363,7 +363,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (39:2) {#each results as result}
+    // (40:2) {#each results as result}
     function create_each_block(ctx) {
     	let p;
     	let t_value = /*result*/ ctx[7] + "";
@@ -373,7 +373,7 @@ var app = (function () {
     		c: function create() {
     			p = element("p");
     			t = text(t_value);
-    			add_location(p, file, 39, 3, 919);
+    			add_location(p, file, 40, 3, 998);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -391,7 +391,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(39:2) {#each results as result}",
+    		source: "(40:2) {#each results as result}",
     		ctx
     	});
 
@@ -484,32 +484,32 @@ var app = (function () {
     			}
 
     			attr_dev(h1, "class", "svelte-1tky8bj");
-    			add_location(h1, file, 19, 1, 372);
-    			add_location(h3, file, 20, 1, 392);
-    			add_location(h4, file, 23, 2, 476);
-    			add_location(input0, file, 24, 2, 537);
-    			add_location(br0, file, 25, 2, 571);
-    			add_location(br1, file, 26, 2, 579);
-    			add_location(h7, file, 27, 2, 587);
-    			add_location(br2, file, 28, 2, 655);
-    			add_location(br3, file, 28, 8, 661);
+    			add_location(h1, file, 20, 1, 451);
+    			add_location(h3, file, 21, 1, 471);
+    			add_location(h4, file, 24, 2, 555);
+    			add_location(input0, file, 25, 2, 616);
+    			add_location(br0, file, 26, 2, 650);
+    			add_location(br1, file, 27, 2, 658);
+    			add_location(h7, file, 28, 2, 666);
+    			add_location(br2, file, 29, 2, 734);
+    			add_location(br3, file, 29, 8, 740);
     			attr_dev(input1, "type", "number");
     			attr_dev(input1, "min", "2");
     			attr_dev(input1, "max", "10");
-    			add_location(input1, file, 29, 2, 669);
-    			add_location(br4, file, 30, 2, 729);
+    			add_location(input1, file, 30, 2, 748);
+    			add_location(br4, file, 31, 2, 808);
     			attr_dev(input2, "type", "range");
     			attr_dev(input2, "min", "2");
     			attr_dev(input2, "max", "10");
-    			add_location(input2, file, 31, 2, 737);
+    			add_location(input2, file, 32, 2, 816);
     			attr_dev(div0, "id", "inputs");
-    			add_location(div0, file, 22, 1, 456);
-    			add_location(br5, file, 34, 1, 804);
-    			add_location(button, file, 35, 1, 811);
+    			add_location(div0, file, 23, 1, 535);
+    			add_location(br5, file, 35, 1, 883);
+    			add_location(button, file, 36, 1, 890);
     			attr_dev(div1, "class", "result-view");
-    			add_location(div1, file, 37, 1, 862);
+    			add_location(div1, file, 38, 1, 941);
     			attr_dev(main, "class", "svelte-1tky8bj");
-    			add_location(main, file, 18, 0, 364);
+    			add_location(main, file, 19, 0, 443);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -632,14 +632,14 @@ var app = (function () {
     	let results = [];
 
     	async function handleSearch(e) {
-    		let data = { search: book_name, num: num_results };
-
+    		// let data = {search: book_name, num: num_results}
     		try {
-    			const returnValue = await fetch(`/search?data=${data}`);
+    			const returnValue = await fetch(`/search?term=${JSON.stringify({ search: book_name, num: num_results })}`);
     			const response = await returnValue.json();
     			$$invalidate(2, results = response.data);
+    			alert(results);
     		} catch(error) {
-    			console.error(error);
+    			console.error("error", error);
     		}
     	}
 

@@ -4,13 +4,14 @@
 	let results = [];
 
 	async function handleSearch(e) {
-		let data = {search: book_name, num: num_results}
+		// let data = {search: book_name, num: num_results}
 		try {
-			const returnValue = await fetch(`/search?data=${data}`);
+			const returnValue = await fetch(`/search?term=${JSON.stringify({search: book_name, num: num_results})}`);
 			const response = await returnValue.json();
 			results = response.data;
+			alert(results)
 		} catch (error) {
-			console.error(error);
+			console.error("error", error);
 		}
 	}
 
