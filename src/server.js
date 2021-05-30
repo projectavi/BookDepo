@@ -51,6 +51,8 @@ app.get("/search", (req, res) => {
         //console.log("main.py executed.")
         results.forEach(dictToObject);
 
+        console.log(results);
+
         res.send({
             success: true,
             data: query_results
