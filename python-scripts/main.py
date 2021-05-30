@@ -24,7 +24,7 @@ def onelib(name):
 
     #print(soup)
 
-    snippets = soup.select("h3")
+    snippets = soup.find_all("h3")
 
     print(snippets)
 
@@ -220,8 +220,8 @@ def search_for_book(book, result_num):
 # print(search_for_book(book, num))
 
 if __name__ == "__main__":
-    results = search_for_book(sys.argv[1], int(sys.argv[2])) #Production
-    #results = search_for_book(input("Book: "), int(input("Num: "))) #Testing
+    #results = search_for_book(sys.argv[1], int(sys.argv[2])) #Production
+    results = search_for_book(input("Book: "), int(input("Num: "))) #Testing
 
     for result in results:
         print(result)
