@@ -24,7 +24,7 @@ def onelib(name):
 
     #print(soup)
 
-    snippets = soup.find_all("h3")
+    snippets = soup.find_all(itemprop="name")
 
     print(snippets)
 
