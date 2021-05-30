@@ -22,11 +22,11 @@ def onelib(name):
 
     soup = BeautifulSoup(res.content, 'html.parser')
 
-    print(soup)
+    #print(soup)
 
     snippets = soup.select("h3")
 
-    #print(snippets)
+    print(snippets)
 
     links = []
     anchors = []
