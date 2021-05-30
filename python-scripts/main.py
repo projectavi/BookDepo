@@ -198,7 +198,7 @@ def search_for_book(book, result_num):
     # print(one, two)
 
     for i in range(0, one):
-        #print("onelib")
+        print("onelib")
 
         if (len(onelibAuthors[i]) != 0):
             results.append(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + ")" + "\n" + onelibLinks[i])
@@ -207,7 +207,7 @@ def search_for_book(book, result_num):
 
     for i in range(0, two):
 
-        #print("ABW")
+        print("ABW")
 
         results.append(ABWnames[i] + "\n" + ABWlinks[i])
 
