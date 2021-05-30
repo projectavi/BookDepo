@@ -31,7 +31,7 @@ def onelib(name):
     names = []
 
     for snip in snippets:
-        #print(snip)
+        print(snip)
         anchors.append(snip.find("a"))
 
 
@@ -175,8 +175,6 @@ def allbooksworld(name):
 def search_for_book(book, result_num):
 
     onelibNames, onelibAuthors, onelibLinks = onelib(book)
-
-    print(len(onelibNames))
 
     ABWnames, ABWlinks = allbooksworld(book)
 
