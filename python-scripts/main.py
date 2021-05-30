@@ -24,19 +24,17 @@ def onelib(name):
 
     #print(soup)
 
-    print(soup.find("h3"))
+    #print(soup.find("h3"))
 
-    snippets = soup.find_all(itemprop="name")
+    snippets = soup.find_all("a", {'style': 'text-decoration: underline;'})
 
-    #print(soup.find_all(itemprop="name"))
+    print(snippets)
 
     links = []
     anchors = []
     names = []
 
-    for snip in snippets:
-        #print(snip)
-        anchors.append(snip.find("a"))
+    anchors = snippets
 
 
     for anchor in anchors:
