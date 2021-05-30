@@ -1,2 +1,2 @@
-"pipinstall: pip install -r requirements.txt"
-"web: node ./src/server.js" 
+pipinstall: pip install -r requirements.txt
+web: node ./src/server.js
