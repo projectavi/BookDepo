@@ -52,6 +52,9 @@ var app = (function () {
     function space() {
         return text(' ');
     }
+    function empty() {
+        return text('');
+    }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
@@ -363,9 +366,91 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (44:1) {:else}
+    // (51:2) {:else}
     function create_else_block(ctx) {
-    	let article;
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			button.textContent = "Search!";
+    			attr_dev(button, "id", "button");
+    			attr_dev(button, "class", "svelte-1qzpb6e");
+    			add_location(button, file, 51, 3, 1326);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*handleSearch*/ ctx[4], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(51:2) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (49:2) {#if FLAG_done === "searching"}
+    function create_if_block_1(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			button.textContent = "Searching...";
+    			attr_dev(button, "id", "button");
+    			attr_dev(button, "class", "svelte-1qzpb6e");
+    			add_location(button, file, 49, 3, 1247);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*handleSearch*/ ctx[4], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(49:2) {#if FLAG_done === \\\"searching\\\"}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (59:2) {#if FLAG_done !== "searching"}
+    function create_if_block(ctx) {
+    	let each_1_anchor;
     	let each_value = /*results*/ ctx[2];
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -376,21 +461,18 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			article = element("article");
-
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(article, "class", "grid svelte-tfoz0i");
-    			add_location(article, file, 44, 2, 1092);
+    			each_1_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, article, anchor);
-
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(article, null);
+    				each_blocks[i].m(target, anchor);
     			}
+
+    			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*results*/ 4) {
@@ -406,7 +488,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(article, null);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
     				}
 
@@ -418,38 +500,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(article);
     			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_else_block.name,
-    		type: "else",
-    		source: "(44:1) {:else}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (42:1) {#if FLAG_done === "searching"}
-    function create_if_block(ctx) {
-    	let h3;
-
-    	const block = {
-    		c: function create() {
-    			h3 = element("h3");
-    			h3.textContent = "Searching...";
-    			add_location(h3, file, 42, 2, 1057);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, h3, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h3);
+    			if (detaching) detach_dev(each_1_anchor);
     		}
     	};
 
@@ -457,14 +509,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(42:1) {#if FLAG_done === \\\"searching\\\"}",
+    		source: "(59:2) {#if FLAG_done !== \\\"searching\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (46:3) {#each results as result}
+    // (60:3) {#each results as result}
     function create_each_block(ctx) {
     	let div;
     	let a;
@@ -481,12 +533,13 @@ var app = (function () {
     			h4 = element("h4");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(h4, file, 46, 64, 1208);
+    			add_location(h4, file, 60, 64, 1574);
     			attr_dev(a, "href", a_href_value = /*result*/ ctx[8].link);
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file, 46, 25, 1169);
-    			attr_dev(div, "class", "result svelte-tfoz0i");
-    			add_location(div, file, 46, 4, 1148);
+    			attr_dev(a, "class", "svelte-1qzpb6e");
+    			add_location(a, file, 60, 25, 1535);
+    			attr_dev(div, "class", "result svelte-1qzpb6e");
+    			add_location(div, file, 60, 4, 1514);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -511,7 +564,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(46:3) {#each results as result}",
+    		source: "(60:3) {#each results as result}",
     		ctx
     	});
 
@@ -520,108 +573,130 @@ var app = (function () {
 
     function create_fragment(ctx) {
     	let main;
-    	let h1;
-    	let t1;
-    	let h3;
-    	let t3;
-    	let div;
-    	let h4;
-    	let t5;
-    	let input0;
-    	let t6;
+    	let link0;
+    	let t0;
+    	let div0;
+    	let h2;
+    	let t2;
     	let br0;
-    	let t7;
+    	let t3;
     	let br1;
-    	let t8;
-    	let h7;
-    	let t10;
-    	let br2;
-    	let t11;
-    	let br3;
-    	let t12;
+    	let t4;
+    	let div2;
+    	let div1;
+    	let form;
+    	let p0;
+    	let input0;
+    	let t5;
+    	let label0;
+    	let t7;
+    	let p1;
     	let input1;
-    	let t13;
-    	let br4;
-    	let t14;
+    	let t8;
     	let input2;
+    	let t9;
+    	let label1;
+    	let t11;
+    	let link1;
+    	let t12;
+    	let br2;
+    	let t13;
+    	let t14;
+    	let br3;
     	let t15;
-    	let br5;
-    	let t16;
-    	let button;
-    	let t18;
+    	let article;
     	let mounted;
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*FLAG_done*/ ctx[3] === "searching") return create_if_block;
+    		if (/*FLAG_done*/ ctx[3] === "searching") return create_if_block_1;
     		return create_else_block;
     	}
 
     	let current_block_type = select_block_type(ctx);
-    	let if_block = current_block_type(ctx);
+    	let if_block0 = current_block_type(ctx);
+    	let if_block1 = /*FLAG_done*/ ctx[3] !== "searching" && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
     			main = element("main");
-    			h1 = element("h1");
-    			h1.textContent = "Book Depo";
-    			t1 = space();
-    			h3 = element("h3");
-    			h3.textContent = "An aggregated search engine for free ebooks online";
-    			t3 = space();
-    			div = element("div");
-    			h4 = element("h4");
-    			h4.textContent = "Enter the name of the book you are searching for:";
-    			t5 = space();
-    			input0 = element("input");
-    			t6 = space();
+    			link0 = element("link");
+    			t0 = space();
+    			div0 = element("div");
+    			h2 = element("h2");
+    			h2.textContent = "Book Depo";
+    			t2 = space();
     			br0 = element("br");
-    			t7 = space();
+    			t3 = space();
     			br1 = element("br");
-    			t8 = space();
-    			h7 = element("h7");
-    			h7.textContent = "Enter the number of results you would like to display:";
-    			t10 = space();
-    			br2 = element("br");
-    			t11 = space();
-    			br3 = element("br");
-    			t12 = space();
+    			t4 = space();
+    			div2 = element("div");
+    			div1 = element("div");
+    			form = element("form");
+    			p0 = element("p");
+    			input0 = element("input");
+    			t5 = space();
+    			label0 = element("label");
+    			label0.textContent = "Book Name";
+    			t7 = space();
+    			p1 = element("p");
     			input1 = element("input");
-    			t13 = space();
-    			br4 = element("br");
-    			t14 = space();
+    			t8 = space();
     			input2 = element("input");
+    			t9 = space();
+    			label1 = element("label");
+    			label1.textContent = "Number of Results";
+    			t11 = space();
+    			link1 = element("link");
+    			t12 = space();
+    			br2 = element("br");
+    			t13 = space();
+    			if_block0.c();
+    			t14 = space();
+    			br3 = element("br");
     			t15 = space();
-    			br5 = element("br");
-    			t16 = space();
-    			button = element("button");
-    			button.textContent = "Search!";
-    			t18 = space();
-    			if_block.c();
-    			attr_dev(h1, "class", "svelte-tfoz0i");
-    			add_location(h1, file, 23, 1, 533);
-    			add_location(h3, file, 24, 1, 553);
-    			add_location(h4, file, 27, 2, 637);
-    			add_location(input0, file, 28, 2, 698);
-    			add_location(br0, file, 29, 2, 732);
-    			add_location(br1, file, 30, 2, 740);
-    			add_location(h7, file, 31, 2, 748);
-    			add_location(br2, file, 32, 2, 816);
-    			add_location(br3, file, 32, 8, 822);
+    			article = element("article");
+    			if (if_block1) if_block1.c();
+    			attr_dev(link0, "href", "https://fonts.googleapis.com/css?family=Open+Sans:300i,400");
+    			attr_dev(link0, "rel", "stylesheet");
+    			add_location(link0, file, 23, 1, 533);
+    			attr_dev(h2, "class", "svelte-1qzpb6e");
+    			add_location(h2, file, 25, 2, 647);
+    			attr_dev(div0, "class", "titles svelte-1qzpb6e");
+    			add_location(div0, file, 24, 1, 624);
+    			add_location(br0, file, 28, 1, 676);
+    			add_location(br1, file, 29, 1, 684);
+    			attr_dev(input0, "class", "w3-input");
+    			attr_dev(input0, "type", "text");
+    			add_location(input0, file, 37, 5, 793);
+    			add_location(label0, file, 38, 5, 858);
+    			add_location(p0, file, 36, 5, 784);
+    			attr_dev(input1, "class", "w3-input");
     			attr_dev(input1, "type", "number");
     			attr_dev(input1, "min", "2");
     			attr_dev(input1, "max", "10");
-    			add_location(input1, file, 33, 2, 830);
-    			add_location(br4, file, 34, 2, 890);
+    			add_location(input1, file, 40, 5, 906);
+    			attr_dev(input2, "class", "w3-input");
     			attr_dev(input2, "type", "range");
     			attr_dev(input2, "min", "2");
     			attr_dev(input2, "max", "10");
-    			add_location(input2, file, 35, 2, 898);
-    			attr_dev(div, "id", "inputs");
-    			add_location(div, file, 26, 1, 617);
-    			add_location(br5, file, 38, 1, 965);
-    			add_location(button, file, 39, 1, 972);
-    			attr_dev(main, "class", "svelte-tfoz0i");
+    			add_location(input2, file, 41, 5, 988);
+    			add_location(label1, file, 42, 5, 1069);
+    			add_location(p1, file, 39, 5, 892);
+    			attr_dev(form, "class", "w3-container");
+    			add_location(form, file, 35, 3, 751);
+    			attr_dev(link1, "rel", "stylesheet");
+    			attr_dev(link1, "href", "https://www.w3schools.com/w3css/4/w3.css");
+    			add_location(link1, file, 44, 3, 1120);
+    			attr_dev(div1, "class", "w3-card-4");
+    			add_location(div1, file, 33, 2, 721);
+    			add_location(br2, file, 47, 2, 1204);
+    			attr_dev(div2, "class", "input-grid svelte-1qzpb6e");
+    			add_location(div2, file, 31, 1, 693);
+    			add_location(br3, file, 55, 1, 1405);
+    			attr_dev(article, "class", "grid container svelte-1qzpb6e");
+    			add_location(article, file, 57, 1, 1414);
+    			attr_dev(main, "class", "svelte-1qzpb6e");
     			add_location(main, file, 22, 0, 525);
     		},
     		l: function claim(nodes) {
@@ -629,47 +704,50 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			append_dev(main, h1);
-    			append_dev(main, t1);
-    			append_dev(main, h3);
+    			append_dev(main, link0);
+    			append_dev(main, t0);
+    			append_dev(main, div0);
+    			append_dev(div0, h2);
+    			append_dev(main, t2);
+    			append_dev(main, br0);
     			append_dev(main, t3);
-    			append_dev(main, div);
-    			append_dev(div, h4);
-    			append_dev(div, t5);
-    			append_dev(div, input0);
+    			append_dev(main, br1);
+    			append_dev(main, t4);
+    			append_dev(main, div2);
+    			append_dev(div2, div1);
+    			append_dev(div1, form);
+    			append_dev(form, p0);
+    			append_dev(p0, input0);
     			set_input_value(input0, /*book_name*/ ctx[0]);
-    			append_dev(div, t6);
-    			append_dev(div, br0);
-    			append_dev(div, t7);
-    			append_dev(div, br1);
-    			append_dev(div, t8);
-    			append_dev(div, h7);
-    			append_dev(div, t10);
-    			append_dev(div, br2);
-    			append_dev(div, t11);
-    			append_dev(div, br3);
-    			append_dev(div, t12);
-    			append_dev(div, input1);
+    			append_dev(p0, t5);
+    			append_dev(p0, label0);
+    			append_dev(form, t7);
+    			append_dev(form, p1);
+    			append_dev(p1, input1);
     			set_input_value(input1, /*num_results*/ ctx[1]);
-    			append_dev(div, t13);
-    			append_dev(div, br4);
-    			append_dev(div, t14);
-    			append_dev(div, input2);
+    			append_dev(p1, t8);
+    			append_dev(p1, input2);
     			set_input_value(input2, /*num_results*/ ctx[1]);
+    			append_dev(p1, t9);
+    			append_dev(p1, label1);
+    			append_dev(div1, t11);
+    			append_dev(div1, link1);
+    			append_dev(div2, t12);
+    			append_dev(div2, br2);
+    			append_dev(div2, t13);
+    			if_block0.m(div2, null);
+    			append_dev(main, t14);
+    			append_dev(main, br3);
     			append_dev(main, t15);
-    			append_dev(main, br5);
-    			append_dev(main, t16);
-    			append_dev(main, button);
-    			append_dev(main, t18);
-    			if_block.m(main, null);
+    			append_dev(main, article);
+    			if (if_block1) if_block1.m(article, null);
 
     			if (!mounted) {
     				dispose = [
     					listen_dev(input0, "input", /*input0_input_handler*/ ctx[5]),
     					listen_dev(input1, "input", /*input1_input_handler*/ ctx[6]),
     					listen_dev(input2, "change", /*input2_change_input_handler*/ ctx[7]),
-    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[7]),
-    					listen_dev(button, "click", /*handleSearch*/ ctx[4], false, false, false)
+    					listen_dev(input2, "input", /*input2_change_input_handler*/ ctx[7])
     				];
 
     				mounted = true;
@@ -688,23 +766,37 @@ var app = (function () {
     				set_input_value(input2, /*num_results*/ ctx[1]);
     			}
 
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-    				if_block.p(ctx, dirty);
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
+    				if_block0.p(ctx, dirty);
     			} else {
-    				if_block.d(1);
-    				if_block = current_block_type(ctx);
+    				if_block0.d(1);
+    				if_block0 = current_block_type(ctx);
 
-    				if (if_block) {
-    					if_block.c();
-    					if_block.m(main, null);
+    				if (if_block0) {
+    					if_block0.c();
+    					if_block0.m(div2, null);
     				}
+    			}
+
+    			if (/*FLAG_done*/ ctx[3] !== "searching") {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block(ctx);
+    					if_block1.c();
+    					if_block1.m(article, null);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			if_block.d();
+    			if_block0.d();
+    			if (if_block1) if_block1.d();
     			mounted = false;
     			run_all(dispose);
     		}

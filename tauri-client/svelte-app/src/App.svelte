@@ -21,65 +21,148 @@
 </script>
 
 <main>
-	<h1>Book Depo</h1>
-	<h3> An aggregated search engine for free ebooks online </h3>
-
-	<div id="inputs">
-		<h4>Enter the name of the book you are searching for:</h4>
-		<input bind:value={book_name}/>
-		<br/>
-		<br/>
-		<h7>Enter the number of results you would like to display: </h7> 
-		<br/> <br/>
-		<input type=number bind:value={num_results} min=2 max=10>
-		<br/>
-		<input type=range bind:value={num_results} min=2 max=10>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+	<div class="titles">
+		<h2>Book Depo</h2>
 	</div>
 
-	<br/>
-	<button on:click={handleSearch}>Search!</button>
+	<br />
+	<br />
 
-	{#if FLAG_done === "searching"}
-		<h3> Searching... </h3>
-	{:else}
-		<article class="grid">
+	<div class="input-grid">
+
+		<div class="w3-card-4">
+		
+			<form class="w3-container">
+			  <p>
+			  <input class="w3-input" type="text" bind:value={book_name}>
+			  <label>Book Name</label></p>
+			  <p>     
+			  <input class="w3-input" type="number" bind:value={num_results} min=2 max=10>
+			  <input class="w3-input" type="range" bind:value={num_results} min=2 max=10>
+			  <label>Number of Results</label></p>
+			</form>
+			<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		</div>
+
+		<br/>
+		{#if FLAG_done === "searching"}
+			<button on:click={handleSearch} id="button">Searching...</button>
+		{:else}
+			<button on:click={handleSearch} id="button">Search!</button>
+		{/if}
+	</div>
+
+	<br />
+
+	<article class="grid container">
+		{#if FLAG_done !== "searching"}
 			{#each results as result}
 				<div class="result"> <a href={result.link} target="_blank"> <h4> {result.title} </h4> </a> </div>
+				
 			{/each}
-		</article>
-	{/if}
+		{/if}
+	</article>
 </main>
 
 <style>
-	.grid {
-		display: grid;
+	
+	button {
+		background-color: #1C5253; /* Green */
+		border: none;
+		color: #F7F7FF;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		transition-duration: 0.4s;
+		border-radius: 25px;
+		margin-bottom: 15px;
+	}
+
+	button:hover {
+		background-color: #276566;
+		transform: scale(1.15);
+	}
+
+	:global(body) {
+		background-color: #00A878;
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	}
+
+	.input-grid {
+		grid-area: input;
 		place-items: center;
 	}
 
+	.grid {
+		display: grid;
+		place-items: center;
+		grid-area: results;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
 	.result {
-		width: 600px;
-		padding: 10px;
-		border: 5px solid gray;
-		margin: 0;
+		background-color: #00A878;
+		border-radius: 80px;
+		border: 5px black;
+		box-shadow: rgba(25,25,25,.04) 0 0 2px 0,rgba(0,0,0,.1) 0 6px 8px 0;
+		color: #1C5253;
+		cursor: pointer;
+		display: inline-block;
+		font-family: Arial,sans-serif;
+		font-size: 0.75em;
+		/* height: 50px; */
+		width:fit-content;
+        height:fit-content;
+		padding: 0 25px;
+		transition: all 200ms;
 		transition-duration: 0.2s;
+		display: flex;
+		flex-direction: row;
+		font-family: CerebriSans-Regular,-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+		text-align: center;
+		margin: 5px;
 	}
 
 	.result:hover {
-		background-color: aquamarine;
-	}
+		background-color: rgb(48, 223, 173);
+		transform: scale(1.1);
+	} 
 
 	main {
 		text-align: center;
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+		display: grid;
+		place-items: center;
+		grid-template-areas: "title"
+							 "input"
+							 "results";
 	}
 
-	h1 {
-		color: #ff3e00;
+	h2 {
+		color: #F7F7FF;
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: 5em;
 		font-weight: 100;
+		margin-bottom: 20px;
+		margin-top: -10px;
+	}
+
+	h3 {
+		color: #F7F7FF;
+		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	}
+
+	.titles {
+		display: grid;
+		grid-area: title;
 	}
 
 	@media (min-width: 640px) {

@@ -5,6 +5,7 @@ from selenium import webdriver
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
+import math
 
 def onelib(name):
     name = name.split()
@@ -136,7 +137,7 @@ def allbooksworld(name):
 
             tempName = tempNames[k]
 
-            if oneupload[i].find("epub") != -1 and tempName.find("ePub") == -1:
+            if (oneupload[i].find("epub") != -1 or oneupload[i].find("ePub")  != -1) and tempName.find("ePub") == -1:
                 # print("pdf to epub")
                 # print(tempName)
                 tempName = tempName.replace("PDF", "ePub")
@@ -181,13 +182,31 @@ def search_for_book(book, result_num):
 
     results = []
 
-    #print(len(ABWlinks))
+    one = 0;
+    two =0;
 
-    for i in range(0, result_num-len(ABWlinks)):
+    if result_num % 2 == 0:
+        one = int(result_num / 2);
+        two = int(result_num / 2);
+    else:
+        one = int(math.ceil(result_num/2));
+        two = int(math.floor(result_num/2));
 
-        results.append(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + "):" + "\n" + onelibLinks[i])
+    if one > len(onelibNames):
+        one = len(onelibNames)
+    if two > len(ABWnames):
+        two = len(ABWnames)
 
-    for i in range(0, len(ABWlinks)):
+    # print(one, two)
+
+    for i in range(0, one):
+
+        if (len(onelibAuthors[i]) != 0):
+            results.append(onelibNames[i] + " (" + str(onelibAuthors[i][0]) + ")" + "\n" + onelibLinks[i])
+        else:
+            results.append(onelibNames[i] + "\n" + onelibLinks[i])
+
+    for i in range(0, two):
 
         results.append(ABWnames[i] + "\n" + ABWlinks[i])
 
@@ -198,7 +217,8 @@ def search_for_book(book, result_num):
 # print(search_for_book(book, num))
 
 if __name__ == "__main__":
-    results = search_for_book(sys.argv[1], int(sys.argv[2]))
+    results = search_for_book(sys.argv[1], int(sys.argv[2])) #Production
+    #results = search_for_book(input("Book: "), int(input("Num: "))) #Testing
 
     for result in results:
         print(result)

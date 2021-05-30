@@ -42,10 +42,10 @@
 			"all": true
 		},
 		"window": {
-			"title": "Tauri Test",
-			"width": 800,
-			"height": 600,
-			"resizable": true,
+			"title": "Book Depo",
+			"width": 700,
+			"height": 500,
+			"resizable": false,
 			"fullscreen": false
 		},
 		"security": {
