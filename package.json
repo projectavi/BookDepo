@@ -6,7 +6,7 @@
 	"author": "theWebalyst",
 	"license": "GPL-3.0",
 	"scripts": {
-		"build": "rollup -c",
+		"build": "rollup -c && node server.js",
 		"dev": "rollup -c -w",
 		"start": "node server.js"
 	},
