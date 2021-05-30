@@ -1,5 +1,4 @@
 altgraph==0.17
-auto-py-to-exe==2.8.0
 beautifulsoup4==4.9.3
 bottle==0.12.19
 bottle-websocket==0.2.9
@@ -13,7 +12,6 @@ colorama==0.4.4
 configparser==5.0.2
 crayons==0.4.0
 decorator==4.4.2
-Eel==0.12.4
 et-xmlfile==1.0.1
 Flask==2.0.0
 future==0.18.2
@@ -48,7 +46,6 @@ pycparser==2.20
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pyxlsx==1.1.3
-qt-material==2.8.4
 reportlab==3.5.65
 requests==2.25.1
 rope==0.18.0
@@ -63,6 +60,5 @@ webdriver-manager==3.4.1
 Werkzeug==2.0.0
 whichcraft==0.6.1
 xlrd==2.0.1
-XlsxWriter==1.4.3
 zope.event==4.5.0
 zope.interface==5.2.0
