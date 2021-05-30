@@ -10,9 +10,9 @@ let temp_results = []
 let new_item = {title: "", link: ""};
 let FLAG_done = false;
 
-app.use("/.netlify/functions/api", cors());
+app.use(cors());
 
-app.handler = serverless(app);
+// app.handler = serverless(app);
 
 function dictToObject(item, index) {
     console.log(index)

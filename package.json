@@ -6,9 +6,9 @@
 	"author": "theWebalyst",
 	"license": "GPL-3.0",
 	"scripts": {
-		"build": "rollup -c && ./node-modules/.bin/netlify-lambda build src",
+		"build": "rollup -c",
 		"dev": "rollup -c -w",
-		"start": "node ./src/server.js && ./node-modules/.bin/netlify-lambda serve src"
+		"start": "node ./src/server.js"
 	},
 	"dependencies": {
 		"build-url": "^6.0.1",
