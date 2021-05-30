@@ -176,9 +176,9 @@ def allbooksworld(name):
 
 def search_for_book(book, result_num):
 
-    onelibNames, onelibAuthors, onelibLinks = onelib(book)
-
     ABWnames, ABWlinks = allbooksworld(book)
+
+    onelibNames, onelibAuthors, onelibLinks = onelib(book)
 
     results = []
 
