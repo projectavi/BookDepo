@@ -26,7 +26,7 @@ def onelib(name):
 
     snippets = soup.find_all("h3")
 
-    #print(snippets)
+    print(snippets)
 
     links = []
     anchors = []
