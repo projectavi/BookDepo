@@ -28,7 +28,7 @@ def onelib(name):
 
     snippets = soup.find_all("a", {'style': 'text-decoration: underline;'})
 
-    print(snippets)
+    #print(snippets)
 
     links = []
     anchors = []
