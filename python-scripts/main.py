@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 from selenium import webdriver
-import time
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import math
