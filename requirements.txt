@@ -1,5 +1,5 @@
 requests
-beautifulsoup4
-selenium
-webdriver-manager
 bs4
+beautifulsoup4
+webdriver-manager
+selenium
