@@ -13,18 +13,20 @@ def onelib(name):
     for i in range(1, len(name)):
         url = url + "%20" + name[i]
 
-    print(url)
+    #print(url)
 
     res = requests.get(url)
 
-    print(type(res.text))
-    print(res.status_code)
+    #print(type(res.text))
+    #print(res.status_code)
 
     soup = BeautifulSoup(res.content, 'html.parser')
 
+    print(soup)
+
     snippets = soup.select("h3")
 
-    print(snippets)
+    #print(snippets)
 
     links = []
     anchors = []
