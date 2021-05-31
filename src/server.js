@@ -15,7 +15,7 @@ app.use(cors());
 // app.handler = serverless(app);
 
 function dictToObject(item, index) {
-    console.log(item)
+    console.log(item);
     if (item == "finished") {
         FLAG_done = true;
     }
@@ -31,7 +31,7 @@ function dictToObject(item, index) {
             new_item = {title: "", link: ""};
         }
     //query_results.push(JSON.parse(item));
-}
+    }
 }
 
 app.get("/search", (req, res) => {

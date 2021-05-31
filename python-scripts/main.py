@@ -23,15 +23,16 @@ def onelib(name):
 
     soup = BeautifulSoup(res.content, 'html.parser')
 
-    #print(soup)
+    # with open("output1.html", "w", encoding='utf-8') as file:
+    #     file.write(str(soup))
+
+    print(soup)
 
     #print(soup.find("h3"))
 
     snippets = soup.find_all("a", {'style': 'text-decoration: underline;'})
 
-    time.sleep(7)
-
-    print(snippets)
+    #print(snippets)
 
     links = []
     anchors = []
