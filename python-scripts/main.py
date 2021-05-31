@@ -28,7 +28,7 @@ def onelib_sel(name):
     options.add_argument('--headless')
     #driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     options.binary_location = GOOGLE_CHROME_PATH
-    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=options)
+    driver = webdriver.Chrome(executable_path==CHROMEDRIVER_PATH, chrome_options=options)
 
     driver.get(url)
     page_source = driver.page_source
