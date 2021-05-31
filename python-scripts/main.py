@@ -14,19 +14,19 @@ def onelib(name):
     for i in range(1, len(name)):
         url = url + "%20" + name[i]
 
-    #print(url)
+    print(url)
 
     res = requests.get(url)
 
     #print(type(res.text))
-    print(res.ok)
+    #print(res.ok)
 
     soup = BeautifulSoup(res.content, 'html.parser')
 
-    # with open("output1.html", "w", encoding='utf-8') as file:
-    #     file.write(str(soup))
+    with open("output1.html", "w", encoding='utf-8') as file:
+        file.write(str(soup))
 
-    print(soup)
+    #print(soup)
 
     #print(soup.find("h3"))
 
@@ -228,6 +228,6 @@ if __name__ == "__main__":
     #results = search_for_book(input("Book: "), int(input("Num: "))) #Testing
 
     for result in results:
-        print(result)
+     #   print(result)
     
-    print("finished")
+    #print("finished")
