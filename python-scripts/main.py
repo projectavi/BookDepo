@@ -4,6 +4,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import math
+import time
 
 def onelib(name):
     name = name.split()
@@ -18,7 +19,7 @@ def onelib(name):
     res = requests.get(url)
 
     #print(type(res.text))
-    #print(res.status_code)
+    print(res.ok)
 
     soup = BeautifulSoup(res.content, 'html.parser')
 
@@ -28,7 +29,9 @@ def onelib(name):
 
     snippets = soup.find_all("a", {'style': 'text-decoration: underline;'})
 
-    #print(snippets)
+    time.sleep(7)
+
+    print(snippets)
 
     links = []
     anchors = []
