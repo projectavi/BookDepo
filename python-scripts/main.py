@@ -6,6 +6,51 @@ import sys
 import math
 import time
 
+def onelib_sel(name):
+    name = name.split()
+
+    url = "https://1lib.in/s/" + name[0]
+
+    for i in range(1, len(name)):
+        url = url + "%20" + name[i]
+
+    #print(url)
+
+    #Maybe can circumvent by using Selenium to click download links
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--incognito')
+    #options.add_argument('--headless')
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+
+    driver.get(url)
+    page_source = driver.page_source
+    # res_link = requests.get("https://1lib.in/" + link)
+    soup = BeautifulSoup(page_source, 'html.parser')
+    
+    snippets = soup.find_all("a", {'style': 'text-decoration: underline;'})
+
+    #print(snippets)
+
+    links = []
+    anchors = []
+    names = []
+
+    anchors = snippets
+
+
+    for anchor in anchors:
+        #print(type(anchor))
+        links.append("https://1lib.in" + anchor.get("href"))
+        names.append(anchor.contents[0])
+
+    authors = soup.find_all(class_="color1")
+
+    for i in range(0, len(authors)):
+        authors[i] = authors[i].contents
+
+    return names, authors, links
+
 def onelib(name):
     name = name.split()
 
@@ -182,7 +227,7 @@ def search_for_book(book, result_num):
 
     ABWnames, ABWlinks = allbooksworld(book)
 
-    onelibNames, onelibAuthors, onelibLinks = onelib(book)
+    onelibNames, onelibAuthors, onelibLinks = onelib_sel(book)
 
     results = []
 
@@ -228,6 +273,6 @@ if __name__ == "__main__":
     #results = search_for_book(input("Book: "), int(input("Num: "))) #Testing
 
     for result in results:
-     #   print(result)
+        print(result)
     
-    #print("finished")
+    print("finished")

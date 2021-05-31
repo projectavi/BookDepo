@@ -49,11 +49,11 @@ app.get("/search", (req, res) => {
     PythonShell.run("./python-scripts/main.py", {args: [data.search, data.num]}, function(err, results) {
         if (err) throw err;
         //console.log("main.py executed.")
-        //results.forEach(dictToObject);
+        results.forEach(dictToObject);
 
-        window.open(results[0], '_blank');
+        //window.open(results[0], '_blank');
 
-        // console.log(results);
+        console.log(results);
 
         res.send({
             success: true,
