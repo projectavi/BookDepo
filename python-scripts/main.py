@@ -4,7 +4,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import math
-import time
+import os
 
 GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
@@ -28,7 +28,8 @@ def onelib_sel(name):
     options.add_argument('--headless')
     #driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     options.binary_location = GOOGLE_CHROME_PATH
-    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options)
+    options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+    driver = webdriver.Chrome(executable_path=os.getenv('CHROME_EXECUTABLE_PATH'), chrome_options=options)
 
     driver.get(url)
     page_source = driver.page_source
