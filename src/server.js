@@ -8,7 +8,7 @@ const fs = require('fs');
 let query_results = []
 let temp_results = []
 let new_item = {title: "", link: ""};
-let FLAG_done = false;
+let FLAG_done = true;
 
 app.use(cors());
 
@@ -16,10 +16,13 @@ app.use(cors());
 
 function dictToObject(item, index) {
     console.log(item);
-    if (item == "finished" || item == "starting") {
+    if (item == "finished") {
         FLAG_done = true;
     }
-    else {
+    else if (item == "starting") {
+        FLAG_done = false;
+    }
+    else if (FLAG_done == false) {
         if ((index % 2) === 0) {
             new_item.title = item;
         }
