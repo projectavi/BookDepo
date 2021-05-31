@@ -1,4 +1,7 @@
 <script>
+import { parse } from "path";
+
+
 	let book_name = "";
 	let num_results = "";
 	let results = [];
@@ -6,15 +9,27 @@
 
 	async function handleSearch(e) {
 		// let data = {search: book_name, num: num_results}
-		FLAG_done = "searching";
-		try {
-			const returnValue = await fetch(`/search?term=${JSON.stringify({search: book_name, num: num_results})}`);
-			const response = await returnValue.json();
-			results = response.data;
-			FLAG_done = "found";
-			console.log(results)
-		} catch (error) {
-			console.error("error", error);
+
+		if (!book_name.trim() || !num_results.trim()) {
+			alert("One of the fields is empty, please fill it")
+		}
+		else if (parseInt(num_results) > 10 || parseInt(num_results) < 2) {
+			alert("The number you entered is out of the range, please enter a number between 2 and 10")
+		}
+		else {
+			FLAG_done = "searching";
+			alert("Now searching for your books, this may take a while (< 1 minute)")
+			try {
+				const returnValue = await fetch(`/search?term=${JSON.stringify({search: book_name, num: num_results})}`);
+				const response = await returnValue.json();
+				results = response.data;
+				FLAG_done = "found";
+				console.log(results)
+				alert("Results Found! If there are less than half your desired results please try again, there may have been a server error")
+			} catch (error) {
+				console.error("error", error);
+				alert("An error ocurred, please reload the page and try again")
+			}
 		}
 	}
 

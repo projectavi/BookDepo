@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import math
 import os
+import time
 
 GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
@@ -35,12 +36,14 @@ def onelib_sel(name):
     driver = webdriver.Chrome(executable_path=os.getenv('CHROME_EXECUTABLE_PATH'), chrome_options=options)
 
     driver.get(url)
-    try:
-        element = WebDriverWait(driver, 30).until(
-            EC.presence_of_element_located((By.ID, "searchResultBox"))
-        )
-    finally:
-        print("element not found")
+    WebDriverWait(driver, 15)
+
+    # try:
+    #     element = WebDriverWait(driver, 30).until(
+    #         EC.presence_of_element_located((By.ID, "searchResultBox"))
+    #     )
+    # finally:
+    #     print("element not found")
 
     page_source = driver.page_source
 
