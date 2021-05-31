@@ -10,7 +10,7 @@ import { parse } from "path";
 	async function handleSearch(e) {
 		// let data = {search: book_name, num: num_results}
 
-		if (!book_name.trim() || !num_results.trim()) {
+		if (!book_name.trim() || !parseString(num_results.trim())) {
 			alert("One of the fields is empty, please fill it")
 		}
 		else if (parseInt(num_results) > 10 || parseInt(num_results) < 2) {
