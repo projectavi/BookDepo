@@ -269,6 +269,7 @@ def search_for_book(book, result_num):
 
     if one > len(onelibNames):
         one = len(onelibNames)
+        two = 10 - one;
     if two > len(ABWnames):
         two = len(ABWnames)
 

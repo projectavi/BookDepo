@@ -23,7 +23,7 @@ function dictToObject(item, index) {
         FLAG_done = false;
     }
     else if (!FLAG_done) {
-        if ((index % 2) === 0) {
+        if (!item.includes("https://")) {
             new_item.title = item;
         }
         else {
