@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import math
@@ -32,6 +35,13 @@ def onelib_sel(name):
     driver = webdriver.Chrome(executable_path=os.getenv('CHROME_EXECUTABLE_PATH'), chrome_options=options)
 
     driver.get(url)
+    try:
+        element = WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "text-decoration: underline;"))
+        )
+    finally:
+        driver.quit()
+
     page_source = driver.page_source
 
     print(page_source)

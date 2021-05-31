@@ -22,7 +22,7 @@ function dictToObject(item, index) {
     else if (item == "starting") {
         FLAG_done = false;
     }
-    else if (FLAG_done == false) {
+    else if (!FLAG_done) {
         if ((index % 2) === 0) {
             new_item.title = item;
         }
