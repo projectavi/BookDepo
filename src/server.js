@@ -15,7 +15,7 @@ app.use(cors());
 // app.handler = serverless(app);
 
 function dictToObject(item, index) {
-    console.log(index)
+    console.log(item)
     if (item == "finished") {
         FLAG_done = true;
     }
@@ -51,7 +51,7 @@ app.get("/search", (req, res) => {
         //console.log("main.py executed.")
         results.forEach(dictToObject);
 
-        console.log(results);
+        // console.log(results);
 
         res.send({
             success: true,
