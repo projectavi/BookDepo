@@ -37,10 +37,10 @@ def onelib_sel(name):
     driver.get(url)
     try:
         element = WebDriverWait(driver, 30).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "text-decoration: underline;"))
+            EC.presence_of_element_located((By.ID, "searchResultBox"))
         )
     finally:
-        driver.quit()
+        print("element not found")
 
     page_source = driver.page_source
 
