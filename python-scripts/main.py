@@ -6,6 +6,9 @@ import sys
 import math
 import time
 
+GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+
 def onelib_sel(name):
     name = name.split()
 
@@ -20,8 +23,12 @@ def onelib_sel(name):
     options = webdriver.ChromeOptions()
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--incognito')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
     #options.add_argument('--headless')
-    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    #driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    options.binary_location = GOOGLE_CHROME_PATH
+    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=options)
 
     driver.get(url)
     page_source = driver.page_source
