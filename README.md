@@ -4,7 +4,9 @@ This is the repository for the Book Depo project I was working on. It's a simple
 
 ## Installation
 
-The web version of this application (project-bookdepo.herokuapp.com) works, but it works a bit erratically with Heroku. To use this offline, Node JS and Python must be installed. Aside from that, in python-scripts/main.py, comment out Line 255, and uncomment Line 256. This is done by removing the # at the beginning of Line 256 and adding one at the beginning of Line 255.
+The web version of this application (project-bookdepo.herokuapp.com) works, but it works a bit erratically with Heroku. To use this offline, Node JS and Python must be installed. After that, cd into the folder and run npm install.
+
+Aside from that, in python-scripts/main.py, comment out Line 255, and uncomment Line 256. This is done by removing the # at the beginning of Line 256 and adding one at the beginning of Line 255.
 
 ## LICENSE
 
