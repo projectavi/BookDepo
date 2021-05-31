@@ -16,7 +16,7 @@ app.use(cors());
 
 function dictToObject(item, index) {
     console.log(item);
-    if (item == "finished") {
+    if (item === "finished" || item === "starting") {
         FLAG_done = true;
     }
     else {
