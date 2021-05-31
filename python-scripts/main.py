@@ -239,7 +239,8 @@ def search_for_book(book, result_num):
 
     ABWnames, ABWlinks = allbooksworld(book)
 
-    onelibNames, onelibAuthors, onelibLinks = onelib_sel(book)
+    onelibNames, onelibAuthors, onelibLinks = onelib_sel(book) #Heroku
+    #onelibNames, onelibAuthors, onelibLinks = onelib(book) #Local
 
     results = []
 

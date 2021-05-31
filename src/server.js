@@ -48,6 +48,7 @@ app.get("/search", (req, res) => {
     let {PythonShell} = require('python-shell');
 
     query_results = [];
+    FLAG_done = true;
 
     PythonShell.run("./python-scripts/main.py", {args: [data.search, data.num]}, function(err, results) {
         if (err) throw err;
